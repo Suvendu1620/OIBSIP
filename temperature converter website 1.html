@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1536089202978-2a7c9b66a826?ixlib=rb-1.2.1&auto=format&fit=crop&w=1https://media.istockphoto.com/id/1332346365/photo/fire-and-ice-concept-design-with-spark-3d-illustration.jpg?s=2048x2048&w=is&k=20&c=Q_-vjH31fCMnV_iHar4qpGlktpFs1EWLgyJbwRX3DhA=350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      animation: backgroundFade 10s infinite alternate;
+    }
+
+    @keyframes backgroundFade {
+      0% { filter: brightness(1); }
+      100% { filter: brightness(0.8); }
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: #5e9ed6;
+      outline: none;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Temperature Converter</h1>
+    <input type="number" id="tempInput" placeholder="Enter temperature" step="0.01">
+    <select id="scaleSelect">
+      <option value="celsius">Celsius</option>
+      <option value="fahrenheit">Fahrenheit</option>
+      <option value="kelvin">Kelvin</option>
+    </select>
+    <button onclick="convertTemp()">Convert</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function convertTemp() {
+      const tempInput = parseFloat(document.getElementById('tempInput').value);
+      const scaleSelect = document.getElementById('scaleSelect').value;
+      const result = document.getElementById('result');
+
+      if (isNaN(tempInput)) {
+        result.innerHTML = "Please enter a valid temperature.";
+        return;
+      }
+
+      let celsius, fahrenheit, kelvin;
+
+      switch (scaleSelect) {
+        case 'celsius':
+          celsius = tempInput;
+          fahrenheit = (celsius * 9 / 5) + 32;
+          kelvin = celsius + 273.15;
+          break;
+        case 'fahrenheit':
+          fahrenheit = tempInput;
+          celsius = (fahrenheit - 32) * 5 / 9;
+          kelvin = celsius + 273.15;
+          break;
+        case 'kelvin':
+          kelvin = tempInput;
+          celsius = kelvin - 273.15;
+          fahrenheit = (celsius * 9 / 5) + 32;
+          break;
+        default:
+          result.innerHTML = "Invalid scale selected.";
+          return;
+      }
+
+      result.innerHTML = `
+        <p>${tempInput}°${scaleSelect.charAt(0).toUpperCase()} is equal to:</p>
+        <p>${celsius.toFixed(2)}°C</p>
+        <p>${fahrenheit.toFixed(2)}°F</p>
+        <p>${kelvin.toFixed(2)}K</p>
+      `;
+    }
+  </script>
+</body>
+</html>
